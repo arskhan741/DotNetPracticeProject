@@ -1,7 +1,7 @@
 ﻿using Bogus;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 
-namespace GraphQLPrac.Schema
+namespace GraphQLPrac.Schema.Queries
 {
     public class Query
     {
@@ -34,7 +34,7 @@ namespace GraphQLPrac.Schema
         }
 
         public IEnumerable<CourseType> Courses() => _fakeCourses.Generate(5);
-        
+
         // Get Parameters by ID
 
         public async Task<CourseType> GetCourseByIdAsync(Guid id)

@@ -1,4 +1,4 @@
-﻿namespace GraphQLPrac.Schema
+﻿namespace GraphQLPrac.Schema.Queries
 {
     public class CourseType
     {

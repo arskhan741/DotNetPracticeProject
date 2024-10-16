@@ -1,4 +1,5 @@
-using GraphQLPrac.Schema;
+using GraphQLPrac.Schema.Mutations;
+using GraphQLPrac.Schema.Queries;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -6,21 +7,16 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddGraphQLServer()
     .AddQueryType<Query>()
-    .AddMutationType<Mutation>(); 
+    .AddMutationType<Mutation>()
+    ; 
 
 var app = builder.Build();
 
 // Add middleware to the request pipeline
-app.UseRouting();  // This is required for routing to work
+app.UseRouting();  
 
-// Optional: Add authorization middleware if needed
-// app.UseAuthorization();
-
-app.UseEndpoints(endpoints =>
-{
-    endpoints.MapGraphQL();  // This maps GraphQL endpoint
-    // Add other endpoints if necessary
-});
+// Add GraphQL to endpoints
+app.MapGraphQL();
 
 app.MapGet("/", () => "Hello World!");
 
