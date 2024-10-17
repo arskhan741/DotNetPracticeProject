@@ -1,4 +1,7 @@
-﻿namespace GraphQLPrac.Schema.Mutations
+﻿using HotChocolate.Subscriptions;
+using GraphQLPrac.Schema.Subscription;
+
+namespace GraphQLPrac.Schema.Mutations
 {
     public class Mutation
     {
@@ -9,9 +12,9 @@
             _courses = new List<CourseResult>();
         }
 
-        public CourseResult CreateCourse(CourseInput courseInput)
+        public async Task<CourseResult> CreateCourse(CourseInput courseInput, [Service] ITopicEventSender topicEventSender)
         {
-            CourseResult courseResult = new CourseResult()
+            CourseResult course = new CourseResult()
             {
                 Id = Guid.NewGuid(),
                 Name = courseInput.Name,
@@ -19,33 +22,35 @@
                 InstructorId = courseInput.InstructorId
             };
 
-            _courses.Add(courseResult);
+            _courses.Add(course);
 
-            return courseResult;
+            // Call an subscribed event
+            await topicEventSender.SendAsync(nameof(Subscription.Subscription.CourseCreated), course);
+
+            return course;
         }
 
-        public CourseResult UpdateCourse(Guid id, CourseInput courseInput)
+        public async Task<CourseResult> UpdateCourse(Guid id, CourseInput courseInput, [Service] ITopicEventSender topicEventSender)
         {
-            CourseResult? courseResult = _courses.FirstOrDefault(c => (c.Id == id));
+            CourseResult? course = _courses.FirstOrDefault(c => (c.Id == id));
 
-            if (courseResult is null)
+            if (course is null)
             {
                 throw new GraphQLException(new Error($"No course found for Id : {id}", "COURSE_NOT_FOUND"));
                 //throw new NullReferenceException("Course not found");
             }
 
-            courseResult.Name = courseInput.Name;
-            courseResult.Subject = courseInput.Subject;
-            courseResult.InstructorId = courseInput.InstructorId;
+            course.Name = courseInput.Name;
+            course.Subject = courseInput.Subject;
+            course.InstructorId = courseInput.InstructorId;
 
-            return courseResult;
+            string updatedCourseTopic = $"{id}_CourseUpdated";
+            await topicEventSender.SendAsync(updatedCourseTopic, id);
+
+            return course;
         }
 
         public bool DeleteCourse(Guid id) => _courses.RemoveAll(c => c.Id == id) >= 1;
-
-
-
-
 
     }
 }
