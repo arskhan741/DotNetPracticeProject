@@ -1,4 +1,5 @@
 ﻿using Bogus;
+using GraphQLPrac.Models;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 
 namespace GraphQLPrac.Schema.Queries
