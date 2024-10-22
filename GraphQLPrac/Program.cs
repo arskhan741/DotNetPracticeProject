@@ -1,14 +1,15 @@
+using GraphQLPrac.Repositories;
 using GraphQLPrac.Schema.Mutations;
 using GraphQLPrac.Schema.Queries;
 using GraphQLPrac.Schema.Subscription;
 using GraphQLPrac.Services;
 using Microsoft.EntityFrameworkCore;
+using System;
 
 var builder = WebApplication.CreateBuilder(args);
 IServiceCollection services = builder.Services;
 
- 
-// Add services to the DI container
+// Add Graph QL 
 services.AddControllers();
 services.AddGraphQLServer()
                 .AddQueryType<Query>()
@@ -16,8 +17,17 @@ services.AddGraphQLServer()
                 .AddSubscriptionType<Subscription>()
                 .AddInMemorySubscriptions();
 
-string connectionString = builder.Configuration.GetConnectionString("default");
-services.AddPooledDbContextFactory<SchoolDbContext>(o => o.UseSqlite(connectionString));
+// Add SQL Connection
+services.AddDbContext<SchoolDbContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("Home"))
+           .EnableSensitiveDataLogging() // Optional: log sensitive data
+           .LogTo(Console.WriteLine, LogLevel.Information); // Log to console
+});
+
+// Add services to the DI container
+services.AddScoped<CourseRepository>();
+services.AddScoped<Query>();
 
 
 var app = builder.Build();

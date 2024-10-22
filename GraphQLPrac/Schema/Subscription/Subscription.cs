@@ -9,14 +9,14 @@ namespace GraphQLPrac.Schema.Subscription
         [Subscribe]
         public CourseResult CourseCreated([EventMessage] CourseResult course) => course;
 
-        [Subscribe]
-        [Topic]
-        public ValueTask<ISourceStream<CourseResult>> CourseUpdated(Guid courseId, [Service] ITopicEventReceiver topicEventReceiver)
-        {
-            string topicName = $"{courseId}_CourseUpdated";
+        //[Subscribe]
+        //[Topic]
+        //public ValueTask<ISourceStream<CourseResult>> CourseUpdated(Guid courseId, [Service] ITopicEventReceiver topicEventReceiver)
+        //{
+        //    string topicName = $"{courseId}_CourseUpdated";
             
-            return topicEventReceiver.SubscribeAsync<CourseResult>(topicName);
-        }
+        //    return topicEventReceiver.SubscribeAsync<CourseResult>(topicName);
+        //}
 
     }
 }
