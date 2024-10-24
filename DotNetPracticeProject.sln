@@ -5,7 +5,7 @@ VisualStudioVersion = 17.11.35312.102
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DapperPrac", "DapperPrac\DapperPrac.csproj", "{DC65950C-C9EF-4325-891F-0F5A5DEA211F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphQLPrac", "GraphQLPrac\GraphQLPrac.csproj", "{19DC6C83-4852-43AD-96DB-E7935D92C339}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GraphQLPrac", "GraphQLPrac\GraphQLPrac.csproj", "{19DC6C83-4852-43AD-96DB-E7935D92C339}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

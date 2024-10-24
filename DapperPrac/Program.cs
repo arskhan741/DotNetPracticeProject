@@ -18,9 +18,15 @@ builder.Services.AddDbContext<ApplicationDBContext>(options =>
 });
 
 builder.Services.AddSingleton<IDbService, DbService>();
-builder.Services.AddScoped<IEmployeeService, EmployeeService>();
+builder.Services.AddSingleton<IEmployeeService, EmployeeService>();
 
 var app = builder.Build();
+
+//// Add Fake data, do more research
+//builder.Services.AddSingleton<IAddData, AddData>();
+//var addData = app.Services.GetRequiredService<IAddData>();
+//addData.AddFakeEmployee();
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -36,3 +42,4 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
